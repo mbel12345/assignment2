@@ -1,0 +1,9 @@
+cd ~/masters/masters_spring_2026/
+
+mkdir assignment2
+
+cd assignment 2/
+
+# Copy files as described in the Tutorial 2
+
+git remote add origin git@github.com:mbel12345/assignment2.git
