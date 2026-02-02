@@ -28,7 +28,6 @@ def test_addition(monkeypatch, capsys):
     output = run_calc(monkeypatch, capsys, inputs)
     assert 'Result: 7.0' in output
 
-
 def test_subtraction(monkeypatch, capsys):
 
     # Test subtraction for REPL calculator
@@ -36,7 +35,6 @@ def test_subtraction(monkeypatch, capsys):
     inputs = ['subtract 9 5', 'exit']
     output = run_calc(monkeypatch, capsys, inputs)
     assert 'Result: 4.0' in output
-
 
 def test_multiplication(monkeypatch, capsys):
 
@@ -53,7 +51,6 @@ def test_division(monkeypatch, capsys):
     inputs = ['divide 6 2', 'exit']
     output = run_calc(monkeypatch, capsys, inputs)
     assert 'Result: 3.0' in output
-
 
 # Tests for invalid inputs
 
@@ -73,7 +70,6 @@ def test_invalid_input_format(monkeypatch, capsys):
     inputs = ['add two 7', 'exit']
     output = run_calc(monkeypatch, capsys, inputs)
     assert 'Invalid input. Please follow the format' in output
-
 
 def test_division_by_zero(monkeypatch, capsys):
 
