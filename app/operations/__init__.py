@@ -15,7 +15,7 @@ def multiplication(a: float, b: float) -> float:
 
 def division(a: float, b: float) -> float:
 
-    # Divide a by b. Raise an error if b is 0.
+    # Divide a by b. Raise an error if b is zero.
     if b == 0:
         raise ValueError('Division by zero is not allowed.')
 
