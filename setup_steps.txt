@@ -4,6 +4,11 @@ mkdir assignment2
 
 cd assignment 2/
 
-# Copy files as described in the Tutorial 2
+python3 -m venv venv
+
+# Copy config/boilerplate files as described in the Tutorial 2
 
 git remote add origin git@github.com:mbel12345/assignment2.git
+
+# Run the test cases in Terminal:
+pytest
