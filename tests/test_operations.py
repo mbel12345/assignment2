@@ -1,61 +1,67 @@
 """ tests/test_operations.py """
 import pytest
-from app.operations import addition, subtraction, multiplication, division
 
-# Note: Copied from module2_is601 project, as described in second video in Module 2. To show that the correct tests do succeed to prove the project works.
+from app.operations import addition, division, multiplication, subtraction
 
-def test_addition_positive():
-    """Test positive cases for addition."""
-    assert addition(2, 3) == 5
+# 3x3 = 9 cases for each function, since each of the two inputs can be either 0, positive, or negative.
+# Except for division where there are 6 test cases, with the 3 division by 0 cases being put into their own test case.
+
+def test_addition():
+
+    # Addition test cases
+    assert addition(2, 5) == 7
+    assert addition(1, -4) == -3
+    assert addition(-5, 10) == 5
+    assert addition(-3, -4) == -7
     assert addition(0, 0) == 0
-    assert addition(-1, 1) == 0
+    assert addition(0, -4) == -4
+    assert addition(-5, 0) == -5
+    assert addition(0, 4) == 4
+    assert addition(6, 0) == 6
 
+def test_subtraction():
 
-def test_addition_negative():
-    """Test negative cases for addition."""
-    assert addition(-2, -3) == -5
-    assert addition(-1, 0) == -1
-
-
-def test_subtraction_positive():
-    """Test positive cases for subtraction."""
-    assert subtraction(5, 3) == 2
+    # Subtraction test cases
+    assert subtraction(2, 5) == -3
+    assert subtraction(1, -4) == 5
+    assert subtraction(-5, 10) == -15
+    assert subtraction(-3, -4) == 1
     assert subtraction(0, 0) == 0
-    assert subtraction(10, 5) == 5
+    assert subtraction(0, -4) == 4
+    assert subtraction(-5, 0) == -5
+    assert subtraction(0, 4) == -4
+    assert subtraction(6, 0) == 6
 
+def test_multiplication():
 
-def test_subtraction_negative():
-    """Test negative cases for subtraction."""
-    assert subtraction(-5, -3) == -2
-    assert subtraction(3, 5) == -2
+     # Multiplication test cases
+    assert multiplication(2, 5) == 10
+    assert multiplication(1, -4) == -4
+    assert multiplication(-5, 10) == -50
+    assert multiplication(-3, -4) == 12
+    assert multiplication(0, 0) == 0
+    assert multiplication(0, -4) == 0
+    assert multiplication(-5, 0) == 0
+    assert multiplication(0, 4) == 0
+    assert multiplication(6, 0) == 0
 
+def test_division_valid():
 
-def test_multiplication_positive():
-    """Test positive cases for multiplication."""
-    assert multiplication(2, 3) == 6
-    assert multiplication(0, 10) == 0
-    assert multiplication(-2, -3) == 6
+    # Division test cases for valid (i.e. non-0) inputs
+    assert division(2, 5) == 0.4
+    assert division(1, -4) == -0.25
+    assert division(-5, 10) == -0.5
+    assert division(-3, -4) == 0.75
+    assert division(0, -4) == 0
+    assert division(0, 4) == 0
 
+def test_division_by_zero_error():
 
-def test_multiplication_negative():
-    """Test negative cases for multiplication."""
-    assert multiplication(2, -3) == -6
-    assert multiplication(-2, 3) == -6
-
-
-def test_division_positive():
-    """Test positive cases for division."""
-    assert division(6, 3) == 2
-    assert division(-6, -3) == 2
-
-
-def test_division_negative():
-    """Test negative cases for division."""
-    assert division(6, -3) == -2
-    assert division(-6, 3) == -2
-
-
-def test_division_by_zero():
-    """Test division by zero."""
-    with pytest.raises(ValueError, match="Division by zero is not allowed."):
-        division(1, 0)
+    # Check that error is raised when user enters 0 as the second number
+    for combo in [
+        (0, 0),
+        (-5, 0),
+        (6, 0),
+    ]:
+        with pytest.raises(ValueError, match='Division by zero is not allowed.'):
+            division(combo[0], combo[1])
