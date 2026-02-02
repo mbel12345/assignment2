@@ -4,7 +4,7 @@ import pytest
 from app.operations import addition, division, multiplication, subtraction
 
 # 3x3 = 9 cases for each non-division function, since each of the two inputs can be either 0, positive, or negative.
-# For division, there are 6 test cases, with the 3 division by 0 cases being put into their own test case.
+# For division, there are 6 test cases, with the 3 division-by-0 cases being put into their own test case.
 
 def test_addition():
 
