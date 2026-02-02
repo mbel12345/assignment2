@@ -18,7 +18,7 @@ def calculator():
             # Extract the parts of the user input (operation and 2 numbers)
             parts = user_input.split()
             if len(parts) != 3:
-                print('Invalid input: Please follow the format: <operation> <number> <number>')
+                print('Invalid input. Please follow the format: <operation> <number> <number>')
             operation = parts[0]
             num_1 = float(parts[1])
             num_2 = float(parts[2])

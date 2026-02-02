@@ -62,6 +62,12 @@ def test_invalid_operation(monkeypatch, capsys):
     output = run_calc(monkeypatch, capsys, inputs)
     assert 'Unknown operation' in output
 
+def test_too_many_inputs(monkeypatch, capsys):
+
+    # Test sending too may inputs to the REPL calculator
+    inputs = ['add 3 4 extra-arg', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Invalid input. Please follow the format' in output
 
 def test_invalid_input_format(monkeypatch, capsys):
 
