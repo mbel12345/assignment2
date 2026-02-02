@@ -1,76 +1,84 @@
-""" tests/test_calculator.py """
 import sys
+
 from io import StringIO
+
 from app.calculator import calculator
 
-# Note: Copied from module2_is601 project, as described in second video in Module 2. To show that the correct tests do succeed to prove the project works.
+def run_calc(monkeypatch, capsys, user_inputs):
 
-# Helper function to capture print statements
-def run_calculator_with_input(monkeypatch, inputs):
-    """
-    Simulates user input and captures output from the calculator REPL.
+    # Simulate reading input from user, and return the output from the calculator app.
 
-    :param monkeypatch: pytest fixture to simulate user input
-    :param inputs: list of inputs to simulate
-    :return: captured output as a string
-    """
-    input_iterator = iter(inputs)
-    monkeypatch.setattr('builtins.input', lambda _: next(input_iterator))
+    inputs = iter(user_inputs)
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    for user_input in user_inputs:
+        monkeypatch.setattr(sys, 'stdin', StringIO(user_input))
 
-    # Capture the output of the calculator
-    captured_output = StringIO()
-    sys.stdout = captured_output
     calculator()
-    sys.stdout = sys.__stdout__  # Reset stdout
-    return captured_output.getvalue()
+
+    captured = capsys.readouterr().out
+    return captured
+
+# Tests for valid inputs
+
+def test_addition(monkeypatch, capsys):
+
+    # Test addition for REPL calculator
+
+    inputs = ['add 2 5', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Result: 7.0' in output
 
 
-# Positive Tests
-def test_addition(monkeypatch):
-    """Test addition operation in REPL."""
-    inputs = ["add 2 3", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 5.0" in output
+def test_subtraction(monkeypatch, capsys):
+
+    # Test subtraction for REPL calculator
+
+    inputs = ['subtract 9 5', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Result: 4.0' in output
 
 
-def test_subtraction(monkeypatch):
-    """Test subtraction operation in REPL."""
-    inputs = ["subtract 5 2", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 3.0" in output
+def test_multiplication(monkeypatch, capsys):
+
+    # Test multiplication for REPL calculator
+
+    inputs = ['multiply 3 5', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Result: 15.0' in output
+
+def test_division(monkeypatch, capsys):
+
+    # Test division for REPL calculator
+
+    inputs = ['divide 6 2', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Result: 3.0' in output
 
 
-def test_multiplication(monkeypatch):
-    """Test multiplication operation in REPL."""
-    inputs = ["multiply 4 5", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 20.0" in output
+# Tests for invalid inputs
+
+def test_invalid_operation(monkeypatch, capsys):
+
+    # Test invalid operation for REPL calculator
+
+    inputs = ['longdivide 9 3', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Unknown operation' in output
 
 
-def test_division(monkeypatch):
-    """Test division operation in REPL."""
-    inputs = ["divide 10 2", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Result: 5.0" in output
+def test_invalid_input_format(monkeypatch, capsys):
+
+    # Test invalid format for REPL calculator
+
+    inputs = ['add two 7', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Invalid input. Please follow the format' in output
 
 
-# Negative Tests
-def test_invalid_operation(monkeypatch):
-    """Test invalid operation in REPL."""
-    inputs = ["modulus 5 3", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Unknown operation" in output
+def test_division_by_zero(monkeypatch, capsys):
 
+    # Test division by 0 for REPL calculator
 
-def test_invalid_input_format(monkeypatch):
-    """Test invalid input format in REPL."""
-    inputs = ["add two three", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Invalid input. Please follow the format" in output
-
-
-def test_division_by_zero(monkeypatch):
-    """Test division by zero in REPL."""
-    inputs = ["divide 5 0", "exit"]
-    output = run_calculator_with_input(monkeypatch, inputs)
-    assert "Division by zero is not allowed" in output
+    inputs = ['divide 8 0', 'exit']
+    output = run_calc(monkeypatch, capsys, inputs)
+    assert 'Division by zero is not allowed' in output
